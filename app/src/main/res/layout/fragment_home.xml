@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.HomeFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Judul Form -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Form Identitas Pasien"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/black"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Input Nama Lengkap -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Nama Lengkap"
+                android:textSize="16sp"/>
+            <EditText
+                android:id="@+id/etNamaLengkap"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="@drawable/custom_edit_text"
+                android:padding="8dp"
+                android:paddingStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:hint="Masukkan nama lengkap"
+                android:inputType="textPersonName"/>
+
+            <!-- Input Tempat Lahir -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Tempat Lahir"
+                android:textSize="16sp" />
+            <EditText
+                android:id="@+id/etTempatLahir"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="@drawable/custom_edit_text"
+                android:padding="8dp"
+                android:paddingStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:hint="Masukkan tempat lahir"
+                android:inputType="textCapWords"/>
+
+            <!-- Input Tanggal Lahir -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Tanggal Lahir"
+                android:textSize="16sp" />
+            <EditText
+                android:id="@+id/dpTanggalLahir"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="@drawable/custom_edit_text"
+                android:padding="8dp"
+                android:paddingStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:hint="Masukkan tanggal lahir"
+                android:inputType="textCapWords"/>
+
+            <!-- Input Tanggal Periksa -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Tanggal Periksa"
+                android:textSize="16sp" />
+            <EditText
+                android:id="@+id/dpTanggalPeriksa"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="@drawable/custom_edit_text"
+                android:padding="8dp"
+                android:paddingStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:hint="Masukkan tanggal periksa"
+                android:inputType="textCapWords"/>
+
+            <!-- Input Usia -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Usia"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- Input Jenis Kelamin -->
+            <EditText
+                android:id="@+id/etUsia"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/custom_edit_text"
+                android:hint="Masukkan usia"
+                android:inputType="number"
+                android:padding="8dp"
+                android:paddingStart="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jenis Kelamin"
+                android:textSize="16sp" />
+            <RadioGroup
+                android:id="@+id/rgJenisKelamin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/rbLakiLaki"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:text="Laki-laki"/>
+                <RadioButton
+                    android:id="@+id/rbPerempuan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Perempuan"/>
+            </RadioGroup>
+
+            <!-- Input Tinggi dan Berat Badan -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tinggi dan Berat Badan"
+                android:layout_marginBottom="8dp"
+                android:textSize="16sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/etTinggi"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:background="@drawable/custom_edit_text"
+                    android:padding="8dp"
+                    android:paddingStart="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:hint="Tinggi (cm)"
+                    android:inputType="number"/>
+                <EditText
+                    android:id="@+id/etBeratBadan"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/custom_edit_text"
+                    android:padding="8dp"
+                    android:paddingStart="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:hint="Berat badan (kg)"
+                    android:inputType="number"/>
+            </LinearLayout>
+
+            <!-- Input Riwayat Penyakit -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Riwayat Penyakit"
+                android:textSize="16sp"
+                android:layout_marginBottom="8dp"/>
+            <Spinner
+                android:id="@+id/spRiwayatPenyakit"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="@drawable/custom_edit_text"
+                android:padding="8dp"
+                android:paddingStart="16dp"
+                android:layout_marginBottom="16dp"
+                android:entries="@array/riwayat_penyakit_options"/>
+
+            <!-- Tombol Submit -->
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/RoundedButtonPrimary"
+                android:text="Kirim"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/purple_500"
+                android:textColor="@android:color/white"/>
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

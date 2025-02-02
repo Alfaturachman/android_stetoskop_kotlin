@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Stetoskop</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string-array name="riwayat_penyakit_options">
+        <item>Tidak Ada</item>
+        <item>Diabetes</item>
+        <item>Hipertensi</item>
+        <item>Jantung</item>
+        <item>Asma</item>
+        <item>Lainnya</item>
+    </string-array>
+</resources>
