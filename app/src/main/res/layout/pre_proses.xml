@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:background="#f2f2f2"
-    tools:context=".ui.pemasok.TambahStokActivity">
+    android:background="#f2f2f2">
 
     <!-- Header -->
     <androidx.cardview.widget.CardView
@@ -81,8 +80,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/white"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="0dp">
+                android:layout_margin="2dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"

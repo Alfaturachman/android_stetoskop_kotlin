@@ -29,8 +29,8 @@
                 android:gravity="start"
                 android:text="Ambil Data Sinyal"
                 android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <Button
                 android:id="@+id/btnSubmit"
@@ -68,11 +68,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="8dp"
                 android:gravity="start"
                 android:text="Suara Detak Jantung"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <LinearLayout
