@@ -17,6 +17,9 @@
         android:theme="@style/Theme.Stetoskop"
         tools:targetApi="31">
         <activity
+            android:name=".ui.form_identitas.FormIdentitasActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.pre_deteksi.PreDeteksiActivity"
             android:exported="false" />
         <activity
