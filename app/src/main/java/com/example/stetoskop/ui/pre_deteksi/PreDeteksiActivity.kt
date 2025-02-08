@@ -1,27 +1,28 @@
-package com.example.stetoskop.ui.pre_proses
+package com.example.stetoskop.ui.pre_deteksi
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageButton
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.stetoskop.MainActivity
 import com.example.stetoskop.R
+import com.example.stetoskop.databinding.ActivityPreDeteksiBinding
+import com.example.stetoskop.databinding.ActivityPreDiagnosaBinding
 import com.example.stetoskop.databinding.ActivityPreProsesBinding
 import com.example.stetoskop.ui.pre_diagnosa.PreDiagnosaActivity
 
-class PreProsesActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityPreProsesBinding
+class PreDeteksiActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityPreDeteksiBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         // Menggunakan View Binding
-        binding = ActivityPreProsesBinding.inflate(layoutInflater)
+        binding = ActivityPreDeteksiBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         supportActionBar?.hide()
@@ -42,7 +43,7 @@ class PreProsesActivity : AppCompatActivity() {
         // Button Selanjutnya
         binding.btnSelanjutnya.setOnClickListener {
             // Pindah ke activity berikutnya (Pastikan tidak loop ke dirinya sendiri)
-            val intent = Intent(this@PreProsesActivity, PreDiagnosaActivity::class.java)
+            val intent = Intent(this@PreDeteksiActivity, MainActivity::class.java)
             startActivity(intent)
         }
     }
