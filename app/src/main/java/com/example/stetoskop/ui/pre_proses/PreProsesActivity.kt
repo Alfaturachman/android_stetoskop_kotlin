@@ -2,10 +2,12 @@ package com.example.stetoskop.ui.pre_proses
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.stetoskop.R
 import com.example.stetoskop.databinding.ActivityPreProsesBinding
 import com.example.stetoskop.ui.pre_diagnosa.PreDiagnosaActivity
 
@@ -20,6 +22,10 @@ class PreProsesActivity : AppCompatActivity() {
         // Menggunakan View Binding
         binding = ActivityPreProsesBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        supportActionBar?.hide()
+        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        window.statusBarColor = resources.getColor(R.color.white, theme)
 
         // Handle insets
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
