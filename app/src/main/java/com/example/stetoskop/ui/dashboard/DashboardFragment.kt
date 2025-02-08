@@ -1,5 +1,6 @@
 package com.example.stetoskop.ui.dashboard
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.stetoskop.databinding.FragmentDashboardBinding
+import com.example.stetoskop.ui.pre_proses.PreProsesActivity
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.components.YAxis
@@ -55,6 +57,13 @@ class DashboardFragment : Fragment() {
 
             // Jalankan lagi setelah 100ms
             handler.postDelayed(this, 100)
+
+            // Button Selanjutnya
+            binding.btnSelanjutnya.setOnClickListener {
+                // Buat Intent untuk berpindah ke PreProsesActivity
+                val intent = Intent(activity, PreProsesActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 
