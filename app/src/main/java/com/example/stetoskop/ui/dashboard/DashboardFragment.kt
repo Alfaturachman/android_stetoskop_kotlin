@@ -1,153 +1,113 @@
 package com.example.stetoskop.ui.dashboard
 
 import android.graphics.Color
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ProgressBar
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.stetoskop.R
 import com.example.stetoskop.databinding.FragmentDashboardBinding
 import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.components.Description
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
-import kotlin.random.Random
+import kotlin.math.sin
+import kotlin.math.PI
 
 class DashboardFragment : Fragment() {
-
     private var _binding: FragmentDashboardBinding? = null
     private val binding get() = _binding!!
+    private lateinit var lineChart: LineChart
+    private val entries = mutableListOf<Entry>()
     private val handler = Handler(Looper.getMainLooper())
-    private lateinit var heartRateChart: LineChart
-    private var time = 0f // Waktu awal untuk data real-time
-    private lateinit var dataSet: LineDataSet
-    private lateinit var lineData: LineData
-    private var mediaPlayer: MediaPlayer? = null
+    private var time = 0f // Waktu dalam detik
+
+    // Runnable untuk update data real-time
+    private val updateChartRunnable = object : Runnable {
+        override fun run() {
+            if (time >= 60) return // Stop setelah 60 detik
+
+            // Simulasi pola napas normal menggunakan fungsi sinus
+            val frequency = 0.2 // Frekuensi per detik
+            val amplitude = 1.0 // Amplitudo maksimal
+            val newY = (amplitude * sin(2 * PI * frequency * time)).toFloat()
+            entries.add(Entry(time, newY))
+            time += 0.1f // Update setiap 100 ms (0.1 detik)
+
+            // Update grafik
+            val dataSet = LineDataSet(entries, "Amplitude").apply {
+                color = Color.BLUE
+                valueTextColor = Color.BLACK
+                lineWidth = 2f
+                setDrawValues(false)
+                setDrawCircles(false)
+                mode = LineDataSet.Mode.CUBIC_BEZIER // Membuat kurva halus
+            }
+
+            val lineData = LineData(dataSet)
+            lineChart.data = lineData
+            lineChart.notifyDataSetChanged()
+            lineChart.invalidate() // Refresh grafik
+
+            // Jalankan lagi setelah 100ms
+            handler.postDelayed(this, 100)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
-
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val btnPlaySound: Button = binding.btnPlaySound
-        val progressBar: ProgressBar = binding.progressBar
-        val textViewCurrentTime: TextView = binding.textViewCurrentTime
-        val textViewTotalDuration: TextView = binding.textViewTotalDuration
-
-        // Setup media player
-        mediaPlayer = MediaPlayer.create(requireContext(), R.raw.sound)
-
-        // Tampilkan durasi total saat pertama kali
-        val totalDuration = mediaPlayer?.duration ?: 0
-        textViewTotalDuration.text = formatTime(totalDuration)
-
-        btnPlaySound.setOnClickListener {
-            mediaPlayer?.start()
-            progressBar.visibility = View.VISIBLE
-
-            // Update progress bar dan waktu secara real-time
-            Thread {
-                while (mediaPlayer?.isPlaying == true) {
-                    val currentPosition = mediaPlayer?.currentPosition ?: 0
-                    val totalDuration = mediaPlayer?.duration ?: 1
-                    val progress = ((currentPosition / totalDuration.toFloat()) * 100).toInt()
-
-                    // Update UI pada main thread
-                    requireActivity().runOnUiThread {
-                        progressBar.progress = progress
-                        textViewCurrentTime.text = formatTime(currentPosition)
-                    }
-
-                    try {
-                        Thread.sleep(100)  // Update setiap 100ms
-                    } catch (e: InterruptedException) {
-                        e.printStackTrace()
-                    }
-                }
-            }.start()
-        }
-
-        // Inisialisasi LineChart
-        heartRateChart = binding.heartRateChart
+        lineChart = binding.heartRateChart
         setupChart()
 
-        // Memulai update data real-time
-        startRealTimeUpdate()
+        // Mulai update grafik real-time
+        handler.post(updateChartRunnable)
 
         return root
     }
 
     private fun setupChart() {
-        val entries = ArrayList<Entry>()
+        lineChart.apply {
+            setBackgroundColor(Color.WHITE)
+            description.isEnabled = false
+            setTouchEnabled(true)
+            isDragEnabled = true
+            setScaleEnabled(true)
+            setPinchZoom(true)
+            axisRight.isEnabled = false // Hilangkan sumbu Y di kanan
+        }
 
-        // **Tambahkan minimal 1 data awal untuk mencegah error**
-        entries.add(Entry(0f, 0f))
+        // Konfigurasi sumbu X (waktu dalam detik)
+        lineChart.xAxis.apply {
+            position = XAxis.XAxisPosition.BOTTOM
+            textColor = Color.BLACK
+            setDrawGridLines(true)
+            granularity = 1f
+            axisMinimum = 0f
+            labelRotationAngle = 0f
+        }
 
-        dataSet = LineDataSet(entries, "Detak Jantung")
-        dataSet.color = Color.RED
-        dataSet.setDrawCircles(false)
-        dataSet.setDrawValues(false)
-
-        lineData = LineData(dataSet)
-        heartRateChart.data = lineData
-
-        val desc = Description()
-        desc.text = "Sinyal Detak Jantung"
-        heartRateChart.description = desc
-
-        heartRateChart.invalidate() // Refresh chart
-    }
-
-    private fun startRealTimeUpdate() {
-        handler.postDelayed(object : Runnable {
-            override fun run() {
-                if (time >= 60f) return // Hentikan setelah 60 detik
-
-                // Simulasi sinyal detak jantung (dengan noise kecil)
-                val amplitude = Math.sin(2 * Math.PI * 1.5 * time) + Random.nextFloat() * 0.2f
-                val entry = Entry(time, amplitude.toFloat())
-
-                // Pastikan `dataSet` tidak kosong sebelum menambahkan data baru
-                if (dataSet.entryCount > 0) {
-                    dataSet.addEntry(entry)
-                    lineData.notifyDataChanged()
-                    heartRateChart.notifyDataSetChanged()
-                    heartRateChart.invalidate()
-                }
-
-                time += 0.1f // Tambah waktu per update (0.1 detik)
-                handler.postDelayed(this, 100) // Update setiap 100ms
-            }
-        }, 100)
-    }
-
-    // Fungsi untuk mengonversi milidetik ke format 00:00
-    private fun formatTime(milliseconds: Int): String {
-        val totalSeconds = milliseconds / 1000
-        val minutes = totalSeconds / 60
-        val seconds = totalSeconds % 60
-        return String.format("%02d:%02d", minutes, seconds)
+        // Konfigurasi sumbu Y (amplitudo)
+        lineChart.axisLeft.apply {
+            textColor = Color.BLACK
+            setDrawGridLines(true)
+            axisMinimum = -1.2f // Batas bawah amplitudo
+            axisMaximum = 1.2f // Batas atas amplitudo
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-        mediaPlayer?.release()  // Release MediaPlayer when Fragment is destroyed
-        handler.removeCallbacksAndMessages(null) // Hentikan update saat Fragment dihancurkan
+        handler.removeCallbacks(updateChartRunnable) // Hentikan update jika fragment dihancurkan
     }
 }

@@ -1,93 +1,113 @@
 package com.example.stetoskop.ui.notifications
 
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.appcompat.app.AppCompatActivity
-import com.github.mikephil.charting.charts.LineChart
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.stetoskop.databinding.FragmentNotificationsBinding
-import kotlin.random.Random
+import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import kotlin.math.sin
+import kotlin.math.PI
 
 class NotificationsFragment : Fragment() {
-    private lateinit var lineChart: LineChart
-
     private var _binding: FragmentNotificationsBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+    private lateinit var lineChart: LineChart
+    private val entries = mutableListOf<Entry>()
+    private val handler = Handler(Looper.getMainLooper())
+    private var time = 0f // Waktu dalam detik
+
+    // Runnable untuk update data real-time
+    private val updateChartRunnable = object : Runnable {
+        override fun run() {
+            if (time >= 60) return // Stop setelah 60 detik
+
+            // Simulasi pola napas normal menggunakan fungsi sinus
+            val frequency = 0.2 // Frekuensi per detik
+            val amplitude = 1.0 // Amplitudo maksimal
+            val newY = (amplitude * sin(2 * PI * frequency * time)).toFloat()
+            entries.add(Entry(time, newY))
+            time += 0.1f // Update setiap 100 ms (0.1 detik)
+
+            // Update grafik
+            val dataSet = LineDataSet(entries, "Amplitude").apply {
+                color = Color.BLUE
+                valueTextColor = Color.BLACK
+                lineWidth = 2f
+                setDrawValues(false)
+                setDrawCircles(false)
+                mode = LineDataSet.Mode.CUBIC_BEZIER // Membuat kurva halus
+            }
+
+            val lineData = LineData(dataSet)
+            lineChart.data = lineData
+            lineChart.notifyDataSetChanged()
+            lineChart.invalidate() // Refresh grafik
+
+            // Jalankan lagi setelah 100ms
+            handler.postDelayed(this, 100)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(NotificationsViewModel::class.java)
-
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val lineChart: LineChart = binding.heartRateChart
-        // Contoh data amplitudo dan waktu
-        val amplitudes = listOf(0.1f, 0.3f, 0.5f, 0.7f, 0.9f, 0.7f, 0.5f, 0.3f, 0.1f)
-        val timeInterval = 1f // Interval waktu per detik
+        lineChart = binding.heartRateChart
+        setupChart()
 
-        // Buat entri data untuk LineChart
-        val entries = mutableListOf<Entry>()
-        for (i in amplitudes.indices) {
-            entries.add(Entry(i * timeInterval, amplitudes[i]))
-        }
+        // Mulai update grafik real-time
+        handler.post(updateChartRunnable)
 
-        // Buat dataset dan atur propertinya
-        val dataSet = LineDataSet(entries, "Amplitudo").apply {
-            color = android.graphics.Color.BLUE // Warna garis
-            valueTextColor = android.graphics.Color.RED // Warna teks nilai
-            lineWidth = 2f // Ketebalan garis
-            setDrawCircles(false) // Nonaktifkan lingkaran pada titik data
-            setDrawValues(false) // Nonaktifkan teks nilai
-        }
-
-        // Set data ke LineChart
-        val lineData = LineData(dataSet)
-        lineChart.data = lineData
-
-        // Konfigurasi chart
-        lineChart.description.text = "Waveform Suara"
-        lineChart.xAxis.labelCount = amplitudes.size // Jumlah label sumbu X
-        lineChart.invalidate() // Refresh chart
-        val handler = Handler(Looper.getMainLooper())
-        val updateChartTask = object : Runnable {
-            override fun run() {
-                // Tambahkan data baru
-                val newAmplitude = Random.nextFloat() // Contoh data acak
-                entries.add(Entry(entries.size * timeInterval, newAmplitude))
-
-                // Perbarui chart
-                lineData.notifyDataChanged()
-                lineChart.notifyDataSetChanged()
-                lineChart.invalidate()
-
-                // Jadwalkan update berikutnya
-                handler.postDelayed(this, 1000) // Update setiap 1 detik
-            }
-        }
-        handler.post(updateChartTask)
         return root
+    }
+
+    private fun setupChart() {
+        lineChart.apply {
+            setBackgroundColor(Color.WHITE)
+            description.isEnabled = false
+            setTouchEnabled(true)
+            isDragEnabled = true
+            setScaleEnabled(true)
+            setPinchZoom(true)
+            axisRight.isEnabled = false // Hilangkan sumbu Y di kanan
+        }
+
+        // Konfigurasi sumbu X (waktu dalam detik)
+        lineChart.xAxis.apply {
+            position = XAxis.XAxisPosition.BOTTOM
+            textColor = Color.BLACK
+            setDrawGridLines(true)
+            granularity = 1f
+            axisMinimum = 0f
+            labelRotationAngle = 0f
+        }
+
+        // Konfigurasi sumbu Y (amplitudo)
+        lineChart.axisLeft.apply {
+            textColor = Color.BLACK
+            setDrawGridLines(true)
+            axisMinimum = -1.2f // Batas bawah amplitudo
+            axisMaximum = 1.2f // Batas atas amplitudo
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        handler.removeCallbacks(updateChartRunnable) // Hentikan update jika fragment dihancurkan
     }
 }

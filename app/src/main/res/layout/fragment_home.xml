@@ -34,16 +34,18 @@
                 android:layout_marginBottom="8dp"
                 android:text="Nama Lengkap"
                 android:textSize="16sp"/>
+
             <EditText
                 android:id="@+id/etNamaLengkap"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/custom_edit_text"
+                android:hint="Masukkan nama lengkap"
+                android:inputType="textPersonName"
                 android:padding="8dp"
                 android:paddingStart="16dp"
-                android:layout_marginBottom="16dp"
-                android:hint="Masukkan nama lengkap"
-                android:inputType="textPersonName"/>
+                tools:ignore="TouchTargetSizeCheck" />
 
             <!-- Input Tempat Lahir -->
             <TextView
@@ -52,16 +54,18 @@
                 android:layout_marginBottom="8dp"
                 android:text="Tempat Lahir"
                 android:textSize="16sp" />
+
             <EditText
                 android:id="@+id/etTempatLahir"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/custom_edit_text"
+                android:hint="Masukkan tempat lahir"
+                android:inputType="textCapWords"
                 android:padding="8dp"
                 android:paddingStart="16dp"
-                android:layout_marginBottom="16dp"
-                android:hint="Masukkan tempat lahir"
-                android:inputType="textCapWords"/>
+                tools:ignore="TouchTargetSizeCheck" />
 
             <!-- Input Tanggal Lahir -->
             <TextView
@@ -70,16 +74,18 @@
                 android:layout_marginBottom="8dp"
                 android:text="Tanggal Lahir"
                 android:textSize="16sp" />
+
             <EditText
                 android:id="@+id/dpTanggalLahir"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/custom_edit_text"
+                android:hint="Masukkan tanggal lahir"
+                android:inputType="textCapWords"
                 android:padding="8dp"
                 android:paddingStart="16dp"
-                android:layout_marginBottom="16dp"
-                android:hint="Masukkan tanggal lahir"
-                android:inputType="textCapWords"/>
+                tools:ignore="TouchTargetSizeCheck" />
 
             <!-- Input Tanggal Periksa -->
             <TextView
@@ -88,16 +94,18 @@
                 android:layout_marginBottom="8dp"
                 android:text="Tanggal Periksa"
                 android:textSize="16sp" />
+
             <EditText
                 android:id="@+id/dpTanggalPeriksa"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/custom_edit_text"
+                android:hint="Masukkan tanggal periksa"
+                android:inputType="textCapWords"
                 android:padding="8dp"
                 android:paddingStart="16dp"
-                android:layout_marginBottom="16dp"
-                android:hint="Masukkan tanggal periksa"
-                android:inputType="textCapWords"/>
+                tools:ignore="TouchTargetSizeCheck" />
 
             <!-- Input Usia -->
             <TextView
@@ -117,7 +125,8 @@
                 android:hint="Masukkan usia"
                 android:inputType="number"
                 android:padding="8dp"
-                android:paddingStart="16dp" />
+                android:paddingStart="16dp"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -154,29 +163,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <EditText
                     android:id="@+id/etTinggi"
                     android:layout_width="0dp"
                     android:layout_height="42dp"
-                    android:layout_weight="1"
                     android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_marginBottom="16dp"
+                    android:layout_weight="1"
                     android:background="@drawable/custom_edit_text"
+                    android:hint="Tinggi (cm)"
+                    android:inputType="number"
                     android:padding="8dp"
                     android:paddingStart="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:hint="Tinggi (cm)"
-                    android:inputType="number"/>
+                    tools:ignore="TouchTargetSizeCheck" />
+
                 <EditText
                     android:id="@+id/etBeratBadan"
                     android:layout_width="0dp"
                     android:layout_height="42dp"
+                    android:layout_marginBottom="16dp"
                     android:layout_weight="1"
                     android:background="@drawable/custom_edit_text"
+                    android:hint="Berat badan (kg)"
+                    android:inputType="number"
                     android:padding="8dp"
                     android:paddingStart="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:hint="Berat badan (kg)"
-                    android:inputType="number"/>
+                    tools:ignore="TouchTargetSizeCheck" />
             </LinearLayout>
 
             <!-- Input Riwayat Penyakit -->
