@@ -1,4 +1,4 @@
-package com.example.stetoskop.ui.dashboard
+package com.example.stetoskop.ui.sinyal
 
 import android.content.Intent
 import android.graphics.Color
@@ -8,20 +8,20 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.example.stetoskop.databinding.FragmentDashboardBinding
+import com.example.stetoskop.databinding.FragmentSinyalBinding
 import com.example.stetoskop.ui.pre_proses.PreProsesActivity
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import kotlin.math.sin
 import kotlin.math.PI
 
-class DashboardFragment : Fragment() {
-    private var _binding: FragmentDashboardBinding? = null
+class SinyalFragment : Fragment() {
+    private var _binding: FragmentSinyalBinding? = null
     private val binding get() = _binding!!
     private lateinit var lineChart: LineChart
     private val entries = mutableListOf<Entry>()
@@ -72,11 +72,13 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentSinyalBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         lineChart = binding.heartRateChart
         setupChart()
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
 
         // Mulai update grafik real-time
         handler.post(updateChartRunnable)

@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.stetoskop.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_sinyal"
+        android:name="com.example.stetoskop.ui.sinyal.SinyalFragment"
+        android:label="@string/title_sinyal"
+        tools:layout="@layout/fragment_sinyal" />
 
     <fragment
         android:id="@+id/navigation_notifications"

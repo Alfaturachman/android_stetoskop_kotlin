@@ -7,6 +7,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.stetoskop.databinding.FragmentNotificationsBinding
 import com.github.mikephil.charting.charts.LineChart
@@ -65,6 +66,8 @@ class NotificationsFragment : Fragment() {
     ): View {
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        (requireActivity() as AppCompatActivity).supportActionBar?.hide()
 
         lineChart = binding.heartRateChart
         setupChart()
