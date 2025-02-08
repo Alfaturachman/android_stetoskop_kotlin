@@ -2,7 +2,7 @@
     <string name="app_name">Stetoskop</string>
     <string name="title_home">Home</string>
     <string name="title_sinyal">Sinyal</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_profile">Profile</string>
 
     <string-array name="riwayat_penyakit_options">
         <item>Tidak Ada</item>
